@@ -4,12 +4,12 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta name="theme-color" content="#1a1a2e"/>
-<title>Artisan — Reporte de Stock</title>
+<title>Artisan — Stock Retail</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css"/>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f5f4f0;min-height:100vh;padding-bottom:3rem}
-.app{max-width:480px;margin:0 auto;padding:1.5rem 1rem 3rem}
+.app{max-width:500px;margin:0 auto;padding:1.5rem 1rem 3rem}
 .logo{display:flex;align-items:center;gap:10px;margin-bottom:1.5rem}
 .logo-mark{width:36px;height:36px;background:#1a1a2e;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:600;font-size:13px;letter-spacing:1px}
 .logo-text{font-size:15px;font-weight:600;color:#1a1a2e}
@@ -23,8 +23,7 @@ textarea{resize:vertical;min-height:72px;margin-bottom:0}
 .rut-row{display:flex;gap:8px;align-items:flex-start}
 .rut-row input{margin-bottom:0}
 .btn-buscar{padding:10px 16px;background:#1a1a2e;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;white-space:nowrap;height:42px}
-.btn-buscar:active{background:#2d2d4e}
-.id-card{background:#f5f4f0;border-radius:8px;padding:.75rem 1rem;margin-bottom:1rem;display:none}
+.id-card{background:#f5f4f0;border-radius:8px;padding:.75rem 1rem;margin-bottom:1rem}
 .id-name{font-size:15px;font-weight:600;color:#1a1a2e}
 .id-meta{font-size:13px;color:#666;margin-top:2px}
 .badge{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px;margin-left:4px}
@@ -33,6 +32,33 @@ textarea{resize:vertical;min-height:72px;margin-bottom:0}
 .badge-tottus{background:#FAEEDA;color:#854F0B}
 .badge-unimarc{background:#FBEAF0;color:#993556}
 .badge-supervisor{background:#1a1a2e;color:#fff}
+.sup-opciones{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:.5rem}
+.sup-opcion{padding:1.25rem 1rem;border:1.5px solid #e8e6e0;border-radius:12px;background:#fff;cursor:pointer;text-align:center}
+.sup-opcion:hover{border-color:#1a1a2e}
+.sup-opcion i{font-size:28px;color:#1a1a2e;display:block;margin-bottom:.5rem}
+.sup-opcion-title{font-size:14px;font-weight:600;color:#1a1a2e}
+.sup-opcion-sub{font-size:12px;color:#888;margin-top:2px}
+.dash-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+.dash-title{font-size:17px;font-weight:600;color:#1a1a2e}
+.dash-sub{font-size:12px;color:#888;margin-top:2px}
+.btn-back{padding:7px 12px;border:1px solid #ddd;border-radius:8px;background:#fff;font-size:13px;cursor:pointer;color:#1a1a2e}
+.metricas{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1rem}
+.metrica{background:#fff;border:1px solid #e8e6e0;border-radius:10px;padding:.9rem 1rem;text-align:center}
+.metrica-val{font-size:28px;font-weight:700;color:#1a1a2e}
+.metrica-label{font-size:11px;color:#888;margin-top:2px}
+.metrica.rojo{background:#FCEBEB;border-color:#f0b8b8}
+.metrica.rojo .metrica-val{color:#A32D2D}
+.metrica.amarillo{background:#FAEEDA;border-color:#f0d4a8}
+.metrica.amarillo .metrica-val{color:#854F0B}
+.tabla-titulo{font-size:11px;font-weight:600;color:#aaa;text-transform:uppercase;letter-spacing:.08em;margin:1.25rem 0 .5rem}
+.tabla{width:100%;border-collapse:collapse;font-size:13px}
+.tabla th{background:#1a1a2e;color:#fff;padding:8px 10px;text-align:left;font-weight:600;font-size:11px}
+.tabla td{padding:8px 10px;border-bottom:1px solid #f0ede8;color:#1a1a2e;vertical-align:middle}
+.tabla tr:last-child td{border-bottom:none}
+.tabla tr:nth-child(even) td{background:#fafaf8}
+.cell-r{color:#A32D2D;font-weight:700;background:#FCEBEB!important;border-radius:4px;padding:3px 8px!important;text-align:center}
+.cell-y{color:#854F0B;background:#FAEEDA!important;border-radius:4px;padding:3px 8px!important;text-align:center}
+.loading{text-align:center;padding:3rem 1rem;color:#888;font-size:14px}
 .prod-item{display:flex;gap:8px;align-items:center;margin-bottom:8px}
 .prod-item select{margin:0;font-size:13px;flex:1}
 .stock-mini{display:flex;gap:4px;flex-shrink:0}
@@ -41,16 +67,15 @@ textarea{resize:vertical;min-height:72px;margin-bottom:0}
 .stock-mini button.sel-y{background:#FAEEDA;border-color:#EF9F27}
 .del-btn{padding:6px 8px;border:none;background:none;cursor:pointer;color:#bbb;font-size:18px;flex-shrink:0}
 .add-btn{width:100%;padding:10px;border:1px dashed #ccc;border-radius:8px;background:transparent;color:#888;font-size:14px;cursor:pointer;margin-bottom:.5rem}
-.add-btn:active{background:#f5f4f0}
 .foto-area{border:1px dashed #ccc;border-radius:8px;padding:1.25rem;text-align:center;cursor:pointer;margin-bottom:1rem;position:relative;background:#fafafa}
 .foto-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
 .foto-thumb{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:.5rem;justify-content:center}
 .foto-thumb img{width:72px;height:72px;object-fit:cover;border-radius:6px;border:1px solid #e8e6e0}
 .foto-label{font-size:13px;color:#888}
 .submit-btn{width:100%;padding:15px;background:#1a1a2e;color:#fff;border:none;border-radius:10px;font-size:16px;font-weight:600;cursor:pointer;margin-top:.5rem}
-.submit-btn:active{background:#2d2d4e}
 .submit-btn:disabled{opacity:.5;cursor:not-allowed}
 .error-msg{font-size:12px;color:#c0392b;margin-top:4px;margin-bottom:8px;display:none}
+.cargando-prods{font-size:13px;color:#888;padding:.5rem 0;text-align:center}
 .success{display:none;text-align:center;padding:3rem 1rem}
 .success h2{font-size:22px;font-weight:600;color:#1a1a2e;margin:1rem 0 .5rem}
 .success p{font-size:14px;color:#666;margin-bottom:1.5rem;line-height:1.6}
@@ -60,73 +85,119 @@ textarea{resize:vertical;min-height:72px;margin-bottom:0}
 </head>
 <body>
 <div class="app">
+
   <div class="logo">
     <div class="logo-mark">AR</div>
     <div>
       <div class="logo-text">Artisan</div>
-      <div class="logo-sub">Reporte de stock en tienda</div>
+      <div class="logo-sub" id="logo-sub">Reporte de stock en tienda</div>
     </div>
   </div>
 
-  <div id="form-view">
+  <!-- LOGIN -->
+  <div id="pantalla-login">
     <div class="card">
-      <div class="step-label">Paso 1 — Identificación</div>
+      <div class="step-label">Identificación</div>
       <label class="field-label">Ingresa tu RUT</label>
       <div class="rut-row">
         <input type="text" id="rut-input" placeholder="Ej: 12345678-9" maxlength="12" inputmode="text" autocomplete="off"/>
-        <button class="btn-buscar" onclick="buscarRut()">Buscar</button>
+        <button class="btn-buscar" onclick="buscarRut()">Ingresar</button>
       </div>
       <div id="rut-error" class="error-msg">RUT no encontrado. Verifica o contacta a tu supervisor.</div>
-      <div class="id-card" id="id-card">
-        <div class="id-name" id="id-nombre"></div>
-        <div class="id-meta" id="id-meta"></div>
-      </div>
     </div>
-
-    <!-- Solo visible para supervisores -->
-    <div class="card hidden" id="supervisor-card">
-      <div class="step-label">Selección de tienda</div>
-      <label class="field-label">Cadena</label>
-      <select id="sup-cadena" onchange="onCambiarCadenaSupervisor()">
-        <option value="">— Selecciona cadena —</option>
-        <option value="Jumbo">Jumbo</option>
-        <option value="Walmart">Walmart / Líder</option>
-        <option value="Tottus">Tottus</option>
-        <option value="Unimarc">Unimarc</option>
-      </select>
-      <label class="field-label">Local</label>
-      <select id="sup-local">
-        <option value="">— Primero elige cadena —</option>
-      </select>
-    </div>
-
-    <div class="card hidden" id="productos-card">
-      <div class="step-label">Paso 2 — Productos con problema</div>
-      <label class="field-label">Solo productos con stock bajo o sin stock</label>
-      <div id="productos-list"></div>
-      <button class="add-btn" onclick="agregarProducto()">+ Agregar otro producto</button>
-    </div>
-
-    <div class="card hidden" id="foto-card">
-      <div class="step-label">Paso 3 — Foto y observaciones (opcional)</div>
-      <div class="foto-area">
-        <input type="file" accept="image/*" multiple onchange="previewFotos(event)"/>
-        <div class="foto-thumb" id="foto-thumb"></div>
-        <div class="foto-label"><i class="ti ti-camera"></i> Toca para sacar o subir foto</div>
-      </div>
-      <label class="field-label">Observaciones</label>
-      <textarea id="obs" placeholder="Comentarios sobre la tienda o los productos..."></textarea>
-    </div>
-
-    <button class="submit-btn hidden" id="submit-btn" onclick="enviarReporte()">Enviar reporte</button>
   </div>
 
-  <div class="success" id="success-view">
-    <i class="ti ti-circle-check" style="font-size:56px;color:#1D9E75"></i>
-    <h2>Reporte enviado</h2>
-    <p id="success-msg"></p>
-    <button class="nuevo-btn" onclick="nuevoReporte()">Nuevo reporte</button>
+  <!-- ELECCIÓN SUPERVISOR -->
+  <div id="pantalla-eleccion" class="hidden">
+    <div class="card">
+      <div class="id-card" style="margin-bottom:.75rem">
+        <div class="id-name" id="id-nombre-sup"></div>
+        <div class="id-meta"><span class="badge badge-supervisor">Supervisor</span></div>
+      </div>
+      <div class="step-label">¿Qué quieres hacer?</div>
+      <div class="sup-opciones">
+        <div class="sup-opcion" onclick="mostrarDashboard()">
+          <i class="ti ti-chart-bar"></i>
+          <div class="sup-opcion-title">Ver dashboard</div>
+          <div class="sup-opcion-sub">Últimos 10 días</div>
+        </div>
+        <div class="sup-opcion" onclick="mostrarFormularioSupervisor()">
+          <i class="ti ti-clipboard-list"></i>
+          <div class="sup-opcion-title">Hacer reporte</div>
+          <div class="sup-opcion-sub">Reportar stock</div>
+        </div>
+      </div>
+    </div>
   </div>
+
+  <!-- DASHBOARD -->
+  <div id="pantalla-dashboard" class="hidden">
+    <div class="dash-header">
+      <div>
+        <div class="dash-title">Dashboard de stock</div>
+        <div class="dash-sub" id="dash-actualizado"></div>
+      </div>
+      <button class="btn-back" onclick="volverEleccion()"><i class="ti ti-arrow-left"></i> Volver</button>
+    </div>
+    <div id="dash-contenido"><div class="loading"><i class="ti ti-loader" style="font-size:24px"></i><br>Cargando datos...</div></div>
+  </div>
+
+  <!-- FORMULARIO -->
+  <div id="pantalla-formulario" class="hidden">
+    <div id="form-view">
+
+      <div class="card">
+        <div class="id-card" id="id-card-form">
+          <div class="id-name" id="id-nombre-form"></div>
+          <div class="id-meta" id="id-meta-form"></div>
+        </div>
+        <button class="btn-back" onclick="volverLogin()" style="margin-top:.5rem"><i class="ti ti-arrow-left"></i> Cambiar usuario</button>
+      </div>
+
+      <!-- Solo supervisores -->
+      <div class="card hidden" id="supervisor-card">
+        <div class="step-label">Selección de tienda</div>
+        <label class="field-label">Cadena</label>
+        <select id="sup-cadena" onchange="onCambiarCadenaSupervisor()">
+          <option value="">— Selecciona cadena —</option>
+          <option value="Jumbo">Jumbo</option>
+          <option value="Walmart">Walmart / Líder</option>
+          <option value="Tottus">Tottus</option>
+          <option value="Unimarc">Unimarc</option>
+        </select>
+        <label class="field-label">Local</label>
+        <select id="sup-local"><option value="">— Primero elige cadena —</option></select>
+      </div>
+
+      <div class="card hidden" id="productos-card">
+        <div class="step-label">Productos con problema</div>
+        <label class="field-label">Solo productos con stock bajo o sin stock</label>
+        <div id="productos-list"></div>
+        <button class="add-btn" onclick="agregarProducto()">+ Agregar otro producto</button>
+      </div>
+
+      <div class="card hidden" id="foto-card">
+        <div class="step-label">Foto y observaciones (opcional)</div>
+        <div class="foto-area">
+          <input type="file" accept="image/*" multiple onchange="previewFotos(event)"/>
+          <div class="foto-thumb" id="foto-thumb"></div>
+          <div class="foto-label"><i class="ti ti-camera"></i> Toca para sacar o subir foto</div>
+        </div>
+        <label class="field-label">Observaciones</label>
+        <textarea id="obs" placeholder="Comentarios sobre la tienda o los productos..."></textarea>
+      </div>
+
+      <button class="submit-btn hidden" id="submit-btn" onclick="enviarReporte()">Enviar reporte</button>
+    </div>
+
+    <div class="success" id="success-view">
+      <i class="ti ti-circle-check" style="font-size:56px;color:#1D9E75"></i>
+      <h2>Reporte enviado</h2>
+      <p id="success-msg"></p>
+      <button class="nuevo-btn" onclick="nuevoReporte()">Nuevo reporte</button>
+    </div>
+  </div>
+
 </div>
 
 <script>
@@ -139,189 +210,244 @@ const SUPERVISORES = [
 ];
 
 const REPONEDORES = [
-  {rut:"15016217-3",nombre:"Andrea Mazuela",local:"J614 - Jumbo Calama",cadena:"Jumbo"},
-  {rut:"17936357-7",nombre:"Juana Ramírez",local:"J817 - Jumbo Super Antofagasta",cadena:"Jumbo"},
-  {rut:"12004306-4",nombre:"Marcela Aravena Martínez",local:"J508 - Jumbo Viña del Mar",cadena:"Jumbo"},
-  {rut:"25695257-2",nombre:"Ginette Medina",local:"J514 - Jumbo La Dehesa",cadena:"Jumbo"},
-  {rut:"21213785-5",nombre:"Rafael Henríquez",local:"J506 - Jumbo Temuco Av. Alemania",cadena:"Jumbo"},
-  {rut:"15996398-5",nombre:"Carolina Serón",local:"J507 - Jumbo Puerto Montt",cadena:"Jumbo"},
-  {rut:"13939244-2",nombre:"Antonio Trangol Carmona",local:"J519 - Jumbo Peñalolén",cadena:"Jumbo"},
-  {rut:"15267837-1",nombre:"Nora Anabel",local:"J411 - Dark Store Costanera Centro",cadena:"Jumbo"},
-  {rut:"21297239-8",nombre:"Kathiuska Aliaga",local:"J501 - Jumbo Bilbao",cadena:"Jumbo"},
-  {rut:"14710516-9",nombre:"Julio Choque",local:"J501 - Jumbo Bilbao",cadena:"Jumbo"},
-  {rut:"16881654-5",nombre:"Joselyn Cerda Sepúlveda",local:"J504 - Jumbo Rancagua",cadena:"Jumbo"},
-  {rut:"9790386-7",nombre:"Bernardita Brito",local:"J520 - Jumbo Valparaíso",cadena:"Jumbo"},
-  {rut:"17608996-2",nombre:"Carlos Orellana Barboza",local:"J502 - Jumbo Kennedy",cadena:"Jumbo"},
-  {rut:"26595890-7",nombre:"Ariana Vanessa Silva",local:"J502 - Jumbo Kennedy",cadena:"Jumbo"},
-  {rut:"22076983-6",nombre:"Esmeralda Saavedra",local:"J502 - Jumbo Kennedy",cadena:"Jumbo"},
-  {rut:"12561734-4",nombre:"Maribel Lagos",local:"J695 - Jumbo Los Ángeles",cadena:"Jumbo"},
-  {rut:"12591335-0",nombre:"Daniela Sáez Flores",local:"J511 - Jumbo Costanera",cadena:"Jumbo"},
-  {rut:"13328661-6",nombre:"Marcela Villalobos",local:"J521 - Jumbo La Serena",cadena:"Jumbo"},
-  {rut:"14508485-7",nombre:"Mónica Soto Villagrán",local:"J503 - Jumbo Maipú",cadena:"Jumbo"},
-  {rut:"11809768-8",nombre:"Verónica Ulloa",local:"J532 - Jumbo Chillán",cadena:"Jumbo"},
-  {rut:"20815740-K",nombre:"Carlos Villanueva",local:"J513 - Jumbo El Llano Subercaseaux",cadena:"Jumbo"},
-  {rut:"15685191-4",nombre:"Christopher Fernández",local:"J660 - Jumbo Iquique",cadena:"Jumbo"},
-  {rut:"17541353-7",nombre:"Ana Lavín Silva",local:"J633 - Jumbo Alessandri Hualpén",cadena:"Jumbo"},
-  {rut:"26352210-9",nombre:"Exkerli Parra",local:"J414 - Dark Store La Dehesa",cadena:"Jumbo"},
-  {rut:"17340563-4",nombre:"Isabel Manzano",local:"J775 - Jumbo Ñuñoa",cadena:"Jumbo"},
-  {rut:"17571839-7",nombre:"Jorge Paolo Cabrera Melo",local:"J809 - Jumbo Mall Center Concepción",cadena:"Jumbo"},
-  {rut:"16412134-8",nombre:"Romina Leiva",local:"J613 - Jumbo Puente Alto",cadena:"Jumbo"},
-  {rut:"17765724-7",nombre:"Eduardo Rubio",local:"J624 - Jumbo El Alba",cadena:"Jumbo"},
-  {rut:"9586042-7",nombre:"Julio Aguilar",local:"J659 - Jumbo Concha y Toro",cadena:"Jumbo"},
-  {rut:"26230658-5",nombre:"Kerlyn Correa",local:"J410 - Darkstore La Florida",cadena:"Jumbo"},
-  {rut:"20218555-K",nombre:"Camila Ampuero Rodríguez",local:"J619 - Jumbo Arica",cadena:"Jumbo"},
-  {rut:"17067768-4",nombre:"Daniela Riquelme",local:"J955 - Jumbo Valdivia",cadena:"Jumbo"},
-  {rut:"15565482-1",nombre:"Ronny Tapia",local:"J762 - Jumbo Los Trapenses",cadena:"Jumbo"},
-  {rut:"17496837-3",nombre:"Katherine Albornoz Fonceca",local:"J591 - Jumbo Talca El Arenal",cadena:"Jumbo"},
-  {rut:"16525828-2",nombre:"Elvira Reyes",local:"J512 - Jumbo La Reina",cadena:"Jumbo"},
-  {rut:"15665695-K",nombre:"Dayana Salazar",local:"J843 - Jumbo San Bernardo Las Lilas",cadena:"Jumbo"},
-  {rut:"17771366-K",nombre:"Leslie Moya",local:"J872 - Jumbo Maitencillo",cadena:"Jumbo"},
-  {rut:"10417084-6",nombre:"Genoveva Brito",local:"J739 - Jumbo Bosquemar",cadena:"Jumbo"},
-  {rut:"17100129-3",nombre:"Rodrigo Escobar Donoso",local:"J958 - Jumbo Pie Andino",cadena:"Jumbo"},
-  {rut:"25253137-8",nombre:"Erney Chaverra Escobar",local:"J810 - Jumbo Super Lo Castillo",cadena:"Jumbo"},
-  {rut:"13139366-0",nombre:"Sandra Candia",local:"J671 - Jumbo Plaza El Trébol",cadena:"Jumbo"},
-  {rut:"14307239-8",nombre:"Marcos Contreras",local:"J989 - Jumbo Independencia",cadena:"Jumbo"},
-  {rut:"14177036-5",nombre:"Kathia Álvarez Henríquez",local:"W003 - Líder Irarrazaval",cadena:"Walmart"},
-  {rut:"18047801-9",nombre:"Alexandra Valdés Esparza",local:"W015 - Líder Estoril",cadena:"Walmart"},
-  {rut:"21561533-2",nombre:"Sofía Ramírez Osorio",local:"W016 - Líder La Dehesa",cadena:"Walmart"},
-  {rut:"20396692-K",nombre:"Estefanía Jaramillo",local:"W032 - Líder Gran Avenida",cadena:"Walmart"},
-  {rut:"16172043-7",nombre:"Nataly Calderón",local:"W044 - Líder Quilin",cadena:"Walmart"},
-  {rut:"18130279-8",nombre:"Bárbara del Río",local:"W055 - Líder Macul",cadena:"Walmart"},
-  {rut:"16198246-6",nombre:"Jonattan Jorquera",local:"W057 - Líder Vitacura",cadena:"Walmart"},
-  {rut:"14256098-4",nombre:"Luis Rubio",local:"W058 - Líder Viña del Mar",cadena:"Walmart"},
-  {rut:"13336604-0",nombre:"Elvira Padilla",local:"W073 - Líder Puente Alto",cadena:"Walmart"},
-  {rut:"17416696-K",nombre:"Camila Aguayo Soto",local:"W074 - Líder Tomas Moro",cadena:"Walmart"},
-  {rut:"13259805-3",nombre:"Walter Reyes Paredes",local:"W075 - Líder Maipú (Pajaritos)",cadena:"Walmart"},
-  {rut:"17106022-2",nombre:"Angela Ramos Donoso",local:"W076 - Líder Departamental",cadena:"Walmart"},
-  {rut:"18008187-9",nombre:"Nataly Ramos Mora",local:"W083 - Líder La Florida (Santa Amalia)",cadena:"Walmart"},
-  {rut:"17098933-3",nombre:"Alexis Vásquez",local:"W088 - Líder Los Dominicos",cadena:"Walmart"},
-  {rut:"26854582-4",nombre:"Carlos Alberto Mancilla",local:"W095 - Líder La Reina",cadena:"Walmart"},
-  {rut:"13294317-6",nombre:"Daniel González",local:"W097 - Líder Puente Nuevo",cadena:"Walmart"},
-  {rut:"13736336-4",nombre:"Pamela Águila Ríos",local:"W099 - Líder Puerto Montt",cadena:"Walmart"},
-  {rut:"9687110-4",nombre:"Franklin Condell Vásquez",local:"W120 - Líder Temuco (Barrio Inglés)",cadena:"Walmart"},
-  {rut:"11810202-9",nombre:"Maritza Belmar",local:"W608 - Líder Chillán",cadena:"Walmart"},
-  {rut:"22675718-K",nombre:"Alejandro Espinoza",local:"W626 - Líder Príncipe de Gales",cadena:"Walmart"}
+  {rut:"15016217-3",nombre:"Andrea Mazuela",local:"J614-JUMBO CALAMA",cadena:"Jumbo"},
+  {rut:"17936357-7",nombre:"Juana Ramírez",local:"J817-JUMBO SUPER ANTOFAGASTA S",cadena:"Jumbo"},
+  {rut:"12004306-4",nombre:"Marcela Aravena Martínez",local:"J508-JUMBO VIÑA DEL MAR",cadena:"Jumbo"},
+  {rut:"25695257-2",nombre:"Ginette Medina",local:"J514-JUMBO LA DEHESA",cadena:"Jumbo"},
+  {rut:"21213785-5",nombre:"Rafael Henríquez",local:"J506-JUMBO TEMUCO AV.ALEMANIA",cadena:"Jumbo"},
+  {rut:"15996398-5",nombre:"Carolina Serón",local:"J507-JUMBO PUERTO MONTT",cadena:"Jumbo"},
+  {rut:"13939244-2",nombre:"Antonio Trangol Carmona",local:"J519-JUMBO PEÑALOLÉN",cadena:"Jumbo"},
+  {rut:"15267837-1",nombre:"Nora Anabel",local:"J411-DARK STORE COSTANERA CENT",cadena:"Jumbo"},
+  {rut:"21297239-8",nombre:"Kathiuska Aliaga",local:"J501-JUMBO BILBAO",cadena:"Jumbo"},
+  {rut:"14710516-9",nombre:"Julio Choque",local:"J501-JUMBO BILBAO",cadena:"Jumbo"},
+  {rut:"16881654-5",nombre:"Joselyn Cerda Sepúlveda",local:"J504-JUMBO RANCAGUA",cadena:"Jumbo"},
+  {rut:"9790386-7",nombre:"Bernardita Brito",local:"J520-JUMBO VALPARAÍSO",cadena:"Jumbo"},
+  {rut:"17608996-2",nombre:"Carlos Orellana Barboza",local:"J502-JUMBO KENNEDY",cadena:"Jumbo"},
+  {rut:"26595890-7",nombre:"Ariana Vanessa Silva",local:"J502-JUMBO KENNEDY",cadena:"Jumbo"},
+  {rut:"22076983-6",nombre:"Esmeralda Saavedra",local:"J502-JUMBO KENNEDY",cadena:"Jumbo"},
+  {rut:"12561734-4",nombre:"Maribel Lagos",local:"J695-JUMBO LOS ÁNGELES",cadena:"Jumbo"},
+  {rut:"12591335-0",nombre:"Daniela Sáez Flores",local:"J511-JUMBO COSTANERA",cadena:"Jumbo"},
+  {rut:"13328661-6",nombre:"Marcela Villalobos",local:"J521-JUMBO LA SERENA",cadena:"Jumbo"},
+  {rut:"14508485-7",nombre:"Mónica Soto Villagrán",local:"J503-JUMBO MAIPÚ",cadena:"Jumbo"},
+  {rut:"11809768-8",nombre:"Verónica Ulloa",local:"J532-JUMBO CHILLÁN",cadena:"Jumbo"},
+  {rut:"20815740-K",nombre:"Carlos Villanueva",local:"J513-JUMBO EL LLANO SUBERCASEAUX",cadena:"Jumbo"},
+  {rut:"15685191-4",nombre:"Christopher Fernández",local:"J660-JUMBO IQUIQUE",cadena:"Jumbo"},
+  {rut:"17541353-7",nombre:"Ana Lavín Silva",local:"J633-JUMBO ALESSANDRI HUALPÉN",cadena:"Jumbo"},
+  {rut:"26352210-9",nombre:"Exkerli Parra",local:"J414-DARK STORE LA DEHESA",cadena:"Jumbo"},
+  {rut:"17340563-4",nombre:"Isabel Manzano",local:"J775-JUMBO ÑUÑOA",cadena:"Jumbo"},
+  {rut:"17571839-7",nombre:"Jorge Paolo Cabrera Melo",local:"J809-JUMBO MALL CENTER CONCEPC",cadena:"Jumbo"},
+  {rut:"16412134-8",nombre:"Romina Leiva",local:"J613-JUMBO PUENTE ALTO",cadena:"Jumbo"},
+  {rut:"17765724-7",nombre:"Eduardo Rubio",local:"J624-JUMBO EL ALBA",cadena:"Jumbo"},
+  {rut:"9586042-7",nombre:"Julio Aguilar",local:"J659-JUMBO CONCHA Y TORO",cadena:"Jumbo"},
+  {rut:"26230658-5",nombre:"Kerlyn Correa",local:"J410-DARKSTORE LA FLORIDA",cadena:"Jumbo"},
+  {rut:"20218555-K",nombre:"Camila Ampuero Rodríguez",local:"J619-JUMBO ARICA",cadena:"Jumbo"},
+  {rut:"17067768-4",nombre:"Daniela Riquelme",local:"J955-JUMBO VALDIVIA",cadena:"Jumbo"},
+  {rut:"15565482-1",nombre:"Ronny Tapia",local:"J762-JUMBO LOS TRAPENSES",cadena:"Jumbo"},
+  {rut:"17496837-3",nombre:"Katherine Albornoz Fonceca",local:"J591-JUMBO TALCA EL ARENAL",cadena:"Jumbo"},
+  {rut:"16525828-2",nombre:"Elvira Reyes",local:"J512-JUMBO LA REINA",cadena:"Jumbo"},
+  {rut:"15665695-K",nombre:"Dayana Salazar",local:"J843-JUMBO SAN BERNARDO LAS LI",cadena:"Jumbo"},
+  {rut:"17771366-K",nombre:"Leslie Moya",local:"J872-JUMBO MAITENCILLO",cadena:"Jumbo"},
+  {rut:"10417084-6",nombre:"Genoveva Brito",local:"J739-JUMBO BOSQUEMAR",cadena:"Jumbo"},
+  {rut:"17100129-3",nombre:"Rodrigo Escobar Donoso",local:"J958-JUMBO PIE ANDINO",cadena:"Jumbo"},
+  {rut:"25253137-8",nombre:"Erney Chaverra Escobar",local:"J810-JUMBO SUPER LO CASTILLO",cadena:"Jumbo"},
+  {rut:"13139366-0",nombre:"Sandra Candia",local:"J671-JUMBO PLAZA EL TRÉBOL",cadena:"Jumbo"},
+  {rut:"14307239-8",nombre:"Marcos Contreras",local:"J989-JUMBO INDEPENDENCIA",cadena:"Jumbo"},
+  {rut:"14177036-5",nombre:"Kathia Álvarez Henríquez",local:"W003-LIDER IRARRAZAVAL",cadena:"Walmart"},
+  {rut:"18047801-9",nombre:"Alexandra Valdés Esparza",local:"W015-LIDER ESTORIL",cadena:"Walmart"},
+  {rut:"21561533-2",nombre:"Sofía Ramírez Osorio",local:"W016-LIDER LA DEHESA",cadena:"Walmart"},
+  {rut:"20396692-K",nombre:"Estefanía Jaramillo",local:"W032-LIDER GRAN AVENIDA",cadena:"Walmart"},
+  {rut:"16172043-7",nombre:"Nataly Calderón",local:"W044-LIDER QUILIN",cadena:"Walmart"},
+  {rut:"18130279-8",nombre:"Bárbara del Río",local:"W055-LIDER MACUL",cadena:"Walmart"},
+  {rut:"16198246-6",nombre:"Jonattan Jorquera",local:"W057-LIDER VITACURA",cadena:"Walmart"},
+  {rut:"14256098-4",nombre:"Luis Rubio",local:"W058-LIDER VIÑA DEL MAR",cadena:"Walmart"},
+  {rut:"13336604-0",nombre:"Elvira Padilla",local:"W073-LIDER PUENTE ALTO",cadena:"Walmart"},
+  {rut:"17416696-K",nombre:"Camila Aguayo Soto",local:"W074-LIDER TOMAS MORO",cadena:"Walmart"},
+  {rut:"13259805-3",nombre:"Walter Reyes Paredes",local:"W075-LIDER MAIPU",cadena:"Walmart"},
+  {rut:"17106022-2",nombre:"Angela Ramos Donoso",local:"W076-LIDER DEPARTAMENTAL",cadena:"Walmart"},
+  {rut:"18008187-9",nombre:"Nataly Ramos Mora",local:"W083-LIDER LA FLORIDA",cadena:"Walmart"},
+  {rut:"17098933-3",nombre:"Alexis Vásquez",local:"W088-LIDER LOS DOMINICOS",cadena:"Walmart"},
+  {rut:"26854582-4",nombre:"Carlos Alberto Mancilla",local:"W095-LIDER LA REINA",cadena:"Walmart"},
+  {rut:"13294317-6",nombre:"Daniel González",local:"W097-LIDER PUENTE NUEVO",cadena:"Walmart"},
+  {rut:"13736336-4",nombre:"Pamela Águila Ríos",local:"W099-LIDER PUERTO MONTT",cadena:"Walmart"},
+  {rut:"9687110-4",nombre:"Franklin Condell Vásquez",local:"W120-LIDER TEMUCO",cadena:"Walmart"},
+  {rut:"11810202-9",nombre:"Maritza Belmar",local:"W608-LIDER CHILLAN",cadena:"Walmart"},
+  {rut:"22675718-K",nombre:"Alejandro Espinoza",local:"W626-LIDER PRINCIPE DE GALES",cadena:"Walmart"}
 ];
 
-const LOCALES = {
-  Jumbo:["J614 - Jumbo Calama","J817 - Jumbo Super Antofagasta","J660 - Jumbo Iquique","J619 - Jumbo Arica","J508 - Jumbo Viña del Mar","J520 - Jumbo Valparaíso","J521 - Jumbo La Serena","J591 - Jumbo Talca El Arenal","J504 - Jumbo Rancagua","J695 - Jumbo Los Ángeles","J532 - Jumbo Chillán","J633 - Jumbo Alessandri Hualpén","J809 - Jumbo Mall Center Concepción","J810 - Jumbo Super Lo Castillo","J671 - Jumbo Plaza El Trébol","J843 - Jumbo San Bernardo Las Lilas","J506 - Jumbo Temuco Av. Alemania","J955 - Jumbo Valdivia","J507 - Jumbo Puerto Montt","J872 - Jumbo Maitencillo","J762 - Jumbo Los Trapenses","J514 - Jumbo La Dehesa","J775 - Jumbo Ñuñoa","J512 - Jumbo La Reina","J624 - Jumbo El Alba","J502 - Jumbo Kennedy","J511 - Jumbo Costanera","J519 - Jumbo Peñalolén","J613 - Jumbo Puente Alto","J503 - Jumbo Maipú","J659 - Jumbo Concha y Toro","J501 - Jumbo Bilbao","J989 - Jumbo Independencia","J958 - Jumbo Pie Andino","J739 - Jumbo Bosquemar","J403 - Darkstore Maipú","J411 - Dark Store Costanera Centro","J414 - Dark Store La Dehesa","J410 - Darkstore La Florida"],
-  Walmart:["W003 - Líder Irarrazaval","W015 - Líder Estoril","W016 - Líder La Dehesa","W032 - Líder Gran Avenida","W044 - Líder Quilin","W055 - Líder Macul","W057 - Líder Vitacura","W058 - Líder Viña del Mar","W073 - Líder Puente Alto","W074 - Líder Tomas Moro","W075 - Líder Maipú (Pajaritos)","W076 - Líder Departamental","W083 - Líder La Florida (Santa Amalia)","W088 - Líder Los Dominicos","W095 - Líder La Reina","W097 - Líder Puente Nuevo","W099 - Líder Puerto Montt","W120 - Líder Temuco (Barrio Inglés)","W608 - Líder Chillán","W626 - Líder Príncipe de Gales"],
-  Tottus:["(Pendiente — agregar locales Tottus)"],
-  Unimarc:["(Pendiente — agregar locales Unimarc)"]
-};
-
-const PRODUCTOS = {
-  Jumbo:["CH4 - Queso de cabra ahumado 180g","BR1 - Brie 120g","TC1 - Tradicional Ciboulette 180g","MA1 - Mascarpone 220g","TR1 - Tradicional 180g","CA1 - Camembert 150g","TO1 - Tradicional Orégano 180g","FT1 - Cabra Feta 175g","CA2 - Camembert Pimienta 150g","CO1 - Cottage 250g","PR1 - Provoleta 115g","YG3 - Griego 360g","YL3 - Descremado 360g","IGD - Ind. Griego Durazno 150g","IGF - Ind. Griego Frutilla 150g","IDD - Ind. Descremado Durazno 150g"],
-  Walmart:["VEF - Vegurt Frutilla","YG3 - Griego 360g","YC3 - Clásico 360g","YL3 - Descremado 360g","IGF - Ind. Griego Frutilla 150g","IDF - Ind. Descremado Frutilla 150g","IDD - Ind. Descremado Durazno 150g","FVC - Flan Vegano Caramelo 150g","SVF - Sémola Vegana Frambuesa 150g","FVF - Flan Vegano Frambuesa 150g","SVC - Sémola Vegana Caramelo 150g","CCAE - Queso Crema Cabra Aceituna 150g","CRONC - Queso Crottin Ciboulette 100g","CO1 - Cottage 250g","AV1 - Arroz Vegano 150g","CHF - Cabra Ahumado Finas Hierbas 180g"],
-  Tottus:["BR1 - Brie 120g","MT2 - Mantecoso 250g","MA1 - Mascarpone 220g","PR1 - Provoleta 115g","CA5 - Camembert 100g","CCAE - Queso Crema Cabra Aceituna 150g","CA2 - Camembert Pimienta 150g","CA1 - Camembert 150g"],
-  Unimarc:["YC3 - Clásico 360g","YG3 - Griego 360g","FT1 - Cabra Feta 175g","TR1 - Tradicional 180g","CHF2 - Cabra Ahumado Finas Hierbas 100g","BR1 - Brie 120g","CA1 - Camembert 150g","IGF - Ind. Griego Frutilla 150g","MT2 - Mantecoso 250g","MA1 - Mascarpone 220g","CCAE - Queso Crema Cabra Aceituna 150g","PR1 - Provoleta 115g","CA2 - Camembert Pimienta 150g","CA5 - Camembert 100g","CHF - Cabra Ahumado Finas Hierbas 180g","CRONA - Queso Crottin Natural 100g"]
+const LOCALES_SUPERVISOR = {
+  Jumbo:["J403-DARKSTORE MAIPU","J408-DARKSTORE VIÑA DEL MAR","J410-DARKSTORE LA FLORIDA","J411-DARK STORE COSTANERA CENT","J414-DARK STORE LA DEHESA","J501-JUMBO BILBAO","J502-JUMBO KENNEDY","J503-JUMBO MAIPU","J504-JUMBO RANCAGUA","J506-JUMBO TEMUCO AV.ALEMANIA","J507-JUMBO PUERTO MONTT","J508-JUMBO VIÑA DEL MAR","J510-JUMBO LA FLORIDA","J511-JUMBO COSTANERA","J512-JUMBO LA REINA","J513-JUMBO EL LLANO","J514-JUMBO LA DEHESA","J519-JUMBO PEÑALOLEN","J520-JUMBO VALPARAISO","J521-JUMBO LA SERENA","J532-JUMBO CHILLAN","J591-JUMBO TALCA EL ARENAL","J613-JUMBO PUENTE ALTO","J614-JUMBO CALAMA","J619-JUMBO ARICA","J624-JUMBO EL ALBA","J633-JUMBO ALESSANDRI HUALPEN","J659-JUMBO CONCHA Y TORO","J660-JUMBO IQUIQUE","J671-JUMBO PLAZA EL TREBOL","J695-JUMBO LOS ANGELES","J739-JUMBO BOSQUEMAR","J762-JUMBO LOS TRAPENSES","J775-JUMBO ÑUÑOA","J780-JUMBO LOS ANDES","J781-JUMBO EL BELLOTO","J796-JUMBO ANTOFAGASTA","J809-JUMBO MALL CENTER CONCEPC","J810-JUMBO SUPER LO CASTILLO","J817-JUMBO SUPER ANTOFAGASTA S","J843-JUMBO SAN BERNARDO LAS LI","J872-JUMBO MAITENCILLO","J875-JUMBO SUPER 14 NORTE","J955-JUMBO VALDIVIA","J957-JUMBO SUPER MALL TALCA","J958-JUMBO PIE ANDINO","J970-JUMBO SUPER LOS PABLOS","J988-JUMBO SUPER PUERTAS DE CH","J989-JUMBO INDEPENDENCIA","J992-JUMBO SUPER COLINA CHAMIS"],
+  Walmart:["W003-LIDER IRARRAZAVAL","W015-LIDER ESTORIL","W016-LIDER LA DEHESA","W032-LIDER GRAN AVENIDA","W044-LIDER QUILIN","W055-LIDER MACUL","W057-LIDER VITACURA","W058-LIDER VIÑA DEL MAR","W073-LIDER PUENTE ALTO","W074-LIDER TOMAS MORO","W075-LIDER MAIPU","W076-LIDER DEPARTAMENTAL","W083-LIDER LA FLORIDA","W088-LIDER LOS DOMINICOS","W095-LIDER LA REINA","W097-LIDER PUENTE NUEVO","W099-LIDER PUERTO MONTT","W120-LIDER TEMUCO","W608-LIDER CHILLAN","W626-LIDER PRINCIPE DE GALES"],
+  Tottus:["(Pendiente)"],
+  Unimarc:["(Pendiente)"]
 };
 
 let reponedorActual = null;
 let esSupervisor = false;
+let productosCache = {};
 let fotosSeleccionadas = [];
 let prodCount = 0;
 
+function mostrar(id){ document.getElementById(id).classList.remove('hidden'); }
+function ocultar(id){ document.getElementById(id).classList.add('hidden'); }
 function normalizarRut(r){ return r.replace(/\./g,'').replace(/\s/g,'').toUpperCase(); }
 
+// ── LOGIN ────────────────────────────────────────────────────────────────────
 function buscarRut(){
   const val = normalizarRut(document.getElementById('rut-input').value.trim());
   if(!val) return;
-
   const errEl = document.getElementById('rut-error');
-  const idCard = document.getElementById('id-card');
 
-  // Buscar en supervisores primero
   const sup = SUPERVISORES.find(s => normalizarRut(s.rut) === val);
   if(sup){
     errEl.style.display='none';
-    esSupervisor = true;
-    reponedorActual = {rut: sup.rut, nombre: sup.nombre, local:'', cadena:''};
-    document.getElementById('id-nombre').textContent = sup.nombre;
-    document.getElementById('id-meta').innerHTML = '<span class="badge badge-supervisor">Supervisor</span>';
-    idCard.style.display='block';
-    document.getElementById('supervisor-card').classList.remove('hidden');
-    document.getElementById('foto-card').classList.remove('hidden');
-    document.getElementById('productos-card').classList.add('hidden');
-    document.getElementById('submit-btn').classList.add('hidden');
-    document.getElementById('productos-list').innerHTML='';
+    esSupervisor=true;
+    reponedorActual={rut:sup.rut, nombre:sup.nombre, local:'', cadena:''};
+    document.getElementById('id-nombre-sup').textContent = sup.nombre;
+    ocultar('pantalla-login');
+    mostrar('pantalla-eleccion');
+    document.getElementById('logo-sub').textContent = 'Bienvenido, '+sup.nombre.split(' ')[0];
     return;
   }
 
-  // Buscar en reponedores
   const found = REPONEDORES.find(r => normalizarRut(r.rut) === val);
-  if(!found){
-    errEl.style.display='block';
-    idCard.style.display='none';
-    document.getElementById('supervisor-card').classList.add('hidden');
-    document.getElementById('productos-card').classList.add('hidden');
-    document.getElementById('foto-card').classList.add('hidden');
-    document.getElementById('submit-btn').classList.add('hidden');
-    reponedorActual=null; esSupervisor=false; return;
-  }
+  if(!found){ errEl.style.display='block'; return; }
 
   errEl.style.display='none';
-  esSupervisor = false;
-  reponedorActual = found;
-  document.getElementById('id-nombre').textContent = found.nombre;
-  const bc = found.cadena==='Jumbo'?'badge-jumbo': found.cadena==='Walmart'?'badge-walmart': found.cadena==='Tottus'?'badge-tottus':'badge-unimarc';
-  document.getElementById('id-meta').innerHTML = found.local + '<span class="badge '+bc+'">'+found.cadena+'</span>';
-  idCard.style.display='block';
-  document.getElementById('supervisor-card').classList.add('hidden');
-  document.getElementById('productos-card').classList.remove('hidden');
-  document.getElementById('foto-card').classList.remove('hidden');
-  document.getElementById('submit-btn').classList.remove('hidden');
-  document.getElementById('productos-list').innerHTML='';
-  prodCount=0;
-  agregarProducto();
+  esSupervisor=false;
+  reponedorActual=found;
+  ocultar('pantalla-login');
+  mostrar('pantalla-formulario');
+  document.getElementById('logo-sub').textContent = 'Reporte de stock';
+
+  const bc = found.cadena==='Jumbo'?'badge-jumbo':found.cadena==='Walmart'?'badge-walmart':found.cadena==='Tottus'?'badge-tottus':'badge-unimarc';
+  document.getElementById('id-nombre-form').textContent = found.nombre;
+  document.getElementById('id-meta-form').innerHTML = found.local+'<span class="badge '+bc+'">'+found.cadena+'</span>';
+  ocultar('supervisor-card');
+  mostrar('foto-card');
+  ocultar('submit-btn');
+
+  // Cargar productos desde la planilla
+  cargarProductosLocal(found.local, function(productos){
+    mostrar('productos-card');
+    mostrar('submit-btn');
+    document.getElementById('productos-list').innerHTML='';
+    prodCount=0;
+    agregarProducto();
+  });
 }
 
 document.getElementById('rut-input').addEventListener('keydown',function(e){ if(e.key==='Enter') buscarRut(); });
 
+// ── Carga productos desde Apps Script ────────────────────────────────────────
+function cargarProductosLocal(local, callback){
+  if(productosCache[local]){
+    callback(productosCache[local]); return;
+  }
+  // Mostrar indicador de carga
+  mostrar('productos-card');
+  document.getElementById('productos-list').innerHTML='<div class="cargando-prods"><i class="ti ti-loader"></i> Cargando productos...</div>';
+
+  fetch(SHEET_URL+'?accion=productos&local='+encodeURIComponent(local))
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if(d.ok && d.productos && d.productos.length){
+        productosCache[local] = d.productos;
+        callback(d.productos);
+      } else {
+        // Fallback vacío
+        productosCache[local] = [];
+        callback([]);
+      }
+    })
+    .catch(function(){
+      productosCache[local] = [];
+      callback([]);
+    });
+}
+
+// ── SUPERVISOR ───────────────────────────────────────────────────────────────
+function mostrarDashboard(){
+  ocultar('pantalla-eleccion');
+  mostrar('pantalla-dashboard');
+  document.getElementById('logo-sub').textContent = 'Dashboard — últimos 10 días';
+  cargarDashboard();
+}
+
+function mostrarFormularioSupervisor(){
+  ocultar('pantalla-eleccion');
+  mostrar('pantalla-formulario');
+  document.getElementById('logo-sub').textContent = 'Reporte de stock';
+  document.getElementById('id-nombre-form').textContent = reponedorActual.nombre;
+  document.getElementById('id-meta-form').innerHTML = '<span class="badge badge-supervisor">Supervisor</span>';
+  mostrar('supervisor-card');
+  ocultar('productos-card');
+  ocultar('foto-card');
+  ocultar('submit-btn');
+  document.getElementById('productos-list').innerHTML='';
+  prodCount=0;
+}
+
+function volverEleccion(){
+  ocultar('pantalla-dashboard');
+  ocultar('pantalla-formulario');
+  mostrar('pantalla-eleccion');
+  document.getElementById('logo-sub').textContent = 'Bienvenido, '+reponedorActual.nombre.split(' ')[0];
+}
+
+function volverLogin(){
+  ['pantalla-formulario','pantalla-eleccion','pantalla-dashboard'].forEach(ocultar);
+  mostrar('pantalla-login');
+  document.getElementById('logo-sub').textContent = 'Reporte de stock en tienda';
+  document.getElementById('rut-input').value='';
+  reponedorActual=null; esSupervisor=false; prodCount=0;
+}
+
 function onCambiarCadenaSupervisor(){
   const cadena = document.getElementById('sup-cadena').value;
   const selLocal = document.getElementById('sup-local');
-  selLocal.innerHTML = '<option value="">— Selecciona local —</option>';
+  selLocal.innerHTML='<option value="">— Selecciona local —</option>';
   if(!cadena) return;
-  (LOCALES[cadena]||[]).forEach(l=>{
+  (LOCALES_SUPERVISOR[cadena]||[]).forEach(function(l){
     const o=document.createElement('option'); o.value=l; o.textContent=l; selLocal.appendChild(o);
   });
-  // Actualizar productos
-  reponedorActual.cadena = cadena;
-  reponedorActual.local = '';
-  document.getElementById('productos-list').innerHTML='';
-  prodCount=0;
-  document.getElementById('productos-card').classList.remove('hidden');
-  document.getElementById('submit-btn').classList.add('hidden');
-  agregarProducto();
+  reponedorActual.cadena=cadena; reponedorActual.local='';
+  ocultar('productos-card'); ocultar('submit-btn');
 
   selLocal.onchange = function(){
     reponedorActual.local = this.value;
-    if(this.value) document.getElementById('submit-btn').classList.remove('hidden');
-    else document.getElementById('submit-btn').classList.add('hidden');
+    if(!this.value) return;
+    cargarProductosLocal(this.value, function(prods){
+      mostrar('productos-card');
+      mostrar('foto-card');
+      mostrar('submit-btn');
+      document.getElementById('productos-list').innerHTML='';
+      prodCount=0;
+      agregarProducto();
+    });
   };
 }
 
+// ── FORMULARIO ───────────────────────────────────────────────────────────────
 function agregarProducto(){
-  if(!reponedorActual || !reponedorActual.cadena) return;
-  const prods = PRODUCTOS[reponedorActual.cadena]||[];
+  const prods = productosCache[reponedorActual.local] || [];
   prodCount++;
   const id='prod-'+prodCount;
   const div=document.createElement('div');
   div.className='prod-item'; div.id=id;
-  const opts=prods.map(p=>'<option value="'+p+'">'+p+'</option>').join('');
+  const opts = prods.length
+    ? prods.map(function(p){ return '<option value="'+p+'">'+p+'</option>'; }).join('')
+    : '<option value="">Sin productos cargados</option>';
   div.innerHTML='<select style="flex:1;margin:0;font-size:13px"><option value="">— Selecciona producto —</option>'+opts+'</select>'
     +'<div class="stock-mini">'
     +'<button type="button" onclick="setStock(this,\'rojo\')" title="Sin stock">🔴</button>'
-    +'<button type="button" onclick="setStock(this,\'amarillo\')" title="Stock bajo (1-9)">🟡</button>'
+    +'<button type="button" onclick="setStock(this,\'amarillo\')" title="Stock bajo">🟡</button>'
     +'</div>'
-    +'<button type="button" class="del-btn" onclick="document.getElementById(\''+id+'\').remove()" title="Eliminar"><i class="ti ti-x"></i></button>';
+    +'<button type="button" class="del-btn" onclick="document.getElementById(\''+id+'\').remove()"><i class="ti ti-x"></i></button>';
   document.getElementById('productos-list').appendChild(div);
 }
 
 function setStock(btn,tipo){
-  const mini=btn.parentElement;
-  mini.querySelectorAll('button').forEach(b=>b.classList.remove('sel-r','sel-y'));
+  btn.parentElement.querySelectorAll('button').forEach(function(b){ b.classList.remove('sel-r','sel-y'); });
   btn.classList.add(tipo==='rojo'?'sel-r':'sel-y');
 }
 
@@ -329,7 +455,7 @@ function previewFotos(e){
   fotosSeleccionadas=Array.from(e.target.files);
   const thumb=document.getElementById('foto-thumb');
   thumb.innerHTML='';
-  fotosSeleccionadas.forEach(f=>{
+  fotosSeleccionadas.forEach(function(f){
     const img=document.createElement('img'); img.src=URL.createObjectURL(f); thumb.appendChild(img);
   });
 }
@@ -339,58 +465,99 @@ function enviarReporte(){
   if(esSupervisor && !reponedorActual.local){ alert('Selecciona un local antes de enviar.'); return; }
   const items=document.querySelectorAll('#productos-list .prod-item');
   const productos=[];
-  items.forEach(item=>{
+  items.forEach(function(item){
     const sel=item.querySelector('select');
     const stockBtn=item.querySelector('.stock-mini button.sel-r,.stock-mini button.sel-y');
-    if(sel.value && stockBtn){
-      productos.push({producto:sel.value, stock:stockBtn.classList.contains('sel-r')?'Sin stock (0 unidades)':'Stock bajo (1-9 unidades)'});
-    }
+    if(sel.value && stockBtn) productos.push({producto:sel.value, stock:stockBtn.classList.contains('sel-r')?'Sin stock (0 unidades)':'Stock bajo (1-9 unidades)'});
   });
   if(productos.length===0){ alert('Selecciona al menos un producto y su nivel de stock.'); return; }
-
   const btn=document.getElementById('submit-btn');
   btn.disabled=true; btn.textContent='Enviando...';
-
   const ahora=new Date().toLocaleString('es-CL');
-  const filas=productos.map(p=>({
-    timestamp:ahora,
-    nombre:reponedorActual.nombre,
-    rut:reponedorActual.rut,
-    cadena:reponedorActual.cadena,
-    local:reponedorActual.local,
-    producto:p.producto,
-    stock:p.stock,
-    observaciones:document.getElementById('obs').value||'',
-    fotos:fotosSeleccionadas.length+' foto(s)'
-  }));
-
+  const filas=productos.map(function(p){ return {timestamp:ahora,nombre:reponedorActual.nombre,rut:reponedorActual.rut,cadena:reponedorActual.cadena,local:reponedorActual.local,producto:p.producto,stock:p.stock,observaciones:document.getElementById('obs').value||'',fotos:fotosSeleccionadas.length+' foto(s)'}; });
   fetch(SHEET_URL,{method:'POST',body:JSON.stringify({reportes:filas}),headers:{'Content-Type':'application/json'},mode:'no-cors'})
-    .then(()=>mostrarExito(productos.length))
-    .catch(()=>mostrarExito(productos.length));
+    .then(function(){ mostrarExito(productos.length); })
+    .catch(function(){ mostrarExito(productos.length); });
 }
 
 function mostrarExito(n){
   document.getElementById('form-view').style.display='none';
   document.getElementById('success-view').style.display='block';
-  document.getElementById('success-msg').textContent='Se registraron '+n+' producto(s) con problema de stock en '+reponedorActual.local+'.';
+  document.getElementById('success-msg').textContent='Se registraron '+n+' producto(s) en '+reponedorActual.local+'.';
 }
 
 function nuevoReporte(){
   document.getElementById('form-view').style.display='block';
   document.getElementById('success-view').style.display='none';
-  document.getElementById('rut-input').value='';
-  document.getElementById('id-card').style.display='none';
-  document.getElementById('supervisor-card').classList.add('hidden');
-  document.getElementById('productos-card').classList.add('hidden');
-  document.getElementById('foto-card').classList.add('hidden');
-  document.getElementById('submit-btn').classList.add('hidden');
   document.getElementById('submit-btn').disabled=false;
   document.getElementById('submit-btn').textContent='Enviar reporte';
   document.getElementById('obs').value='';
   document.getElementById('foto-thumb').innerHTML='';
-  document.getElementById('sup-cadena').value='';
-  document.getElementById('sup-local').innerHTML='<option value="">— Primero elige cadena —</option>';
-  fotosSeleccionadas=[]; reponedorActual=null; esSupervisor=false; prodCount=0;
+  fotosSeleccionadas=[];
+  if(esSupervisor){ volverEleccion(); }
+  else { document.getElementById('productos-list').innerHTML=''; prodCount=0; agregarProducto(); }
+}
+
+// ── DASHBOARD ────────────────────────────────────────────────────────────────
+function cargarDashboard(){
+  const cont=document.getElementById('dash-contenido');
+  cont.innerHTML='<div class="loading"><i class="ti ti-loader" style="font-size:24px"></i><br>Cargando datos...</div>';
+  fetch(SHEET_URL+'?accion=dashboard')
+    .then(function(r){ return r.json(); })
+    .then(function(d){ renderDashboard(d); })
+    .catch(function(){ cont.innerHTML='<div class="loading">Error al cargar. Verifica tu conexión.</div>'; });
+}
+
+function renderDashboard(d){
+  const cont=document.getElementById('dash-contenido');
+  if(!d.ok){ cont.innerHTML='<div class="loading">Error: '+d.error+'</div>'; return; }
+  if(d.vacio){ cont.innerHTML='<div class="loading">Sin reportes en los últimos '+d.dias+' días.</div>'; return; }
+  document.getElementById('dash-actualizado').textContent='Actualizado: '+d.actualizado;
+  let html='';
+  html+='<div class="metricas">';
+  html+=metrica(d.resumen.totalReportes,'Reportes totales','');
+  html+=metrica(d.resumen.totalLocales,'Locales reportados','');
+  html+=metrica(d.resumen.sinStock,'Sin stock 🔴','rojo');
+  html+=metrica(d.resumen.stockBajo,'Stock bajo 🟡','amarillo');
+  html+='</div>';
+  if(d.productos&&d.productos.length){
+    html+='<div class="tabla-titulo">Productos más críticos</div>';
+    html+='<div style="overflow-x:auto"><table class="tabla"><thead><tr><th>Producto</th><th>Cadena</th><th>🔴</th><th>🟡</th><th>Total</th></tr></thead><tbody>';
+    d.productos.forEach(function(p){
+      html+='<tr><td>'+p.nombre+'</td><td style="font-size:12px;color:#888">'+p.cadenas+'</td>';
+      html+='<td>'+(p.sinStock>0?'<span class="cell-r">'+p.sinStock+'</span>':'-')+'</td>';
+      html+='<td>'+(p.bajo>0?'<span class="cell-y">'+p.bajo+'</span>':'-')+'</td>';
+      html+='<td style="font-weight:600">'+p.total+'</td></tr>';
+    });
+    html+='</tbody></table></div>';
+  }
+  if(d.locales&&d.locales.length){
+    html+='<div class="tabla-titulo">Locales con más problemas</div>';
+    html+='<div style="overflow-x:auto"><table class="tabla"><thead><tr><th>Local</th><th>Cadena</th><th>🔴</th><th>🟡</th><th>Total</th></tr></thead><tbody>';
+    d.locales.forEach(function(l){
+      html+='<tr><td style="font-size:12px">'+l.nombre+'</td><td style="font-size:12px;color:#888">'+l.cadena+'</td>';
+      html+='<td>'+(l.sinStock>0?'<span class="cell-r">'+l.sinStock+'</span>':'-')+'</td>';
+      html+='<td>'+(l.bajo>0?'<span class="cell-y">'+l.bajo+'</span>':'-')+'</td>';
+      html+='<td style="font-weight:600">'+l.total+'</td></tr>';
+    });
+    html+='</tbody></table></div>';
+  }
+  if(d.cadenas&&d.cadenas.length){
+    html+='<div class="tabla-titulo">Resumen por cadena</div>';
+    html+='<div style="overflow-x:auto"><table class="tabla"><thead><tr><th>Cadena</th><th>🔴 Sin stock</th><th>🟡 Stock bajo</th><th>Total</th></tr></thead><tbody>';
+    d.cadenas.forEach(function(c){
+      html+='<tr><td style="font-weight:600">'+c.nombre+'</td>';
+      html+='<td>'+(c.sinStock>0?'<span class="cell-r">'+c.sinStock+'</span>':'-')+'</td>';
+      html+='<td>'+(c.bajo>0?'<span class="cell-y">'+c.bajo+'</span>':'-')+'</td>';
+      html+='<td style="font-weight:600">'+c.total+'</td></tr>';
+    });
+    html+='</tbody></table></div>';
+  }
+  cont.innerHTML=html;
+}
+
+function metrica(val,label,tipo){
+  return '<div class="metrica '+tipo+'"><div class="metrica-val">'+val+'</div><div class="metrica-label">'+label+'</div></div>';
 }
 </script>
 </body>
